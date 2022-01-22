@@ -1,0 +1,15 @@
+.page_header {
+    padding-left: 12px;
+    display: flex;
+    align-items: center;
+    color: var(--theme_foreground_light);
+    background-color: var(--theme_background_main);
+}
+
+.page_header > p {
+    width: fit-content;
+    height: 20px;
+    text-align: center;
+    font-size: 16px;
+    font-family: "Audiowide", cursive;
+}

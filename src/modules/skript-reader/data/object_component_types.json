@@ -1,0 +1,67 @@
+{
+    "body": {
+        "maximum_depth": 1,
+        "child_components": ["comment", "indention", "function", "string", "variable", "boolean", "number"],
+        "keywords": null
+    },
+    "string": {
+        "maximum_depth": null,
+        "child_components": ["expression"],
+        "keywords": null
+    },
+    "number": {
+        "maximum_depth": null,
+        "child_components": [],
+        "keywords": null
+    },
+    "boolean": {
+        "maximum_depth": null,
+        "child_components": [],
+        "keywords": ["true", "false"]
+    },
+    "expression": {
+        "maximum_depth": null,
+        "child_components": ["function", "string", "variable", "boolean", "number"],
+        "keywords": null
+    },
+    "variable": {
+        "maximum_depth": null,
+        "child_components": ["expression"],
+        "keywords": null
+    },
+    "function": {
+        "maximum_depth": null,
+        "child_components": ["function_parameter", "string", "variable", "boolean", "number"],
+        "keywords": null
+    },
+    "indention": {
+        "maximum_depth": 1,
+        "child_components": [],
+        "keywords": null
+    },
+    "comment": {
+        "maximum_depth": 1,
+        "child_components": [],
+        "keywords": null
+    },
+    "function_parameter": {
+        "maximum_depth": null,
+        "child_components": ["function_parameter_name", "function_parameter_type", "function_parameter_default"],
+        "keywords": null
+    },
+    "function_parameter_name": {
+        "maximum_depth": null,
+        "child_components": [],
+        "keywords": null
+    },
+    "function_parameter_type": {
+        "maximum_depth": null,
+        "child_components": [],
+        "keywords": null
+    },
+    "function_parameter_default": {
+        "maximum_depth": null,
+        "child_components": ["function", "string", "variable", "boolean", "number"],
+        "keywords": null
+    }
+}

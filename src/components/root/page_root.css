@@ -1,0 +1,48 @@
+* {
+    /* default styling for all components */
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
+}
+
+#page_root {
+    /* page layout */
+    display: grid;
+    grid-template-columns: 50px auto 300px;
+    grid-template-rows: 30px auto 150px;
+}
+
+.page_header {
+    /* page header location in grid */
+    grid-column: 1/4;
+    grid-row: 1;
+}
+
+.page_sidebar_left {
+    /* page left sidebar location in grid */
+    grid-column: 1;
+    grid-row: 2/4;
+}
+
+.page_sidebar_right {
+    /* page right sidebar location in grid */
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.page_body {
+    /* page body location in grid */
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.page_footer {
+    /* page footer location in grid */
+    grid-column: 2/4;
+    grid-row: 3;
+}

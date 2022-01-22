@@ -1,0 +1,14 @@
+.page_sidebar_right {
+    display: flex;
+    background-color: var(--theme_background_dark);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.page_sidebar_right > div {
+    width: fit-content;
+    height: auto;
+    color: var(--theme_foreground_dark);
+    text-align: center;
+}

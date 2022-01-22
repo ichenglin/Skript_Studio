@@ -1,0 +1,10 @@
+#page_root {
+	/* page theme color palette */
+	--theme_foreground_font: monospace;
+	--theme_background_main: #007ACC;
+	--theme_background_light: #4E5355;
+	--theme_background_dark: #434749;
+	--theme_foreground_warning: #E06C75;
+	--theme_foreground_light: #FFFFFF;
+	--theme_foreground_dark: rgb(128, 128, 128);
+}

@@ -1,0 +1,28 @@
+.global_scrollable {
+    overflow: scroll;
+}
+
+.global_scrollable::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.global_scrollable::-webkit-scrollbar-thumb {
+	background-color: #FFFFFF;
+	border-radius: 3px;
+}
+
+.global_scrollable::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
+.global_overflow_parent {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+}
+
+.global_overflow_children {
+    grid-column: 1;
+    grid-row: 1;
+}
