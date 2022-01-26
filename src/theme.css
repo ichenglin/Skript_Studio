@@ -6,5 +6,6 @@
 	--theme_background_dark: #434749;
 	--theme_foreground_warning: #E06C75;
 	--theme_foreground_light: #FFFFFF;
+	--theme_foreground_medium: rgb(171, 178, 191);
 	--theme_foreground_dark: rgb(128, 128, 128);
 }

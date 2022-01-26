@@ -17,7 +17,7 @@
     "boolean": {
         "maximum_depth": null,
         "child_components": [],
-        "keywords": ["true", "false"]
+        "keywords": ["^true$", "^false$"]
     },
     "expression": {
         "maximum_depth": null,

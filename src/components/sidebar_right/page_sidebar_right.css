@@ -2,13 +2,30 @@
     display: flex;
     background-color: var(--theme_background_dark);
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    padding-left: 8px;
+    padding-top: 8px;
 }
 
-.page_sidebar_right > div {
-    width: fit-content;
-    height: auto;
-    color: var(--theme_foreground_dark);
-    text-align: center;
+.page_sidebar_right_item {
+    width: min-content;
+    height: 16px;
+    display: flex;
+}
+
+.page_sidebar_right_item_name, .page_sidebar_right_item_value {
+    font-size: 14px;
+	font-family: var(--theme_foreground_font);
+	line-height: 16px;
+    tab-size: 4;
+}
+
+.page_sidebar_right_item_name {
+    min-width: 70px;
+    width: 70px;
+    color: var(--theme_foreground_light);
+}
+
+.page_sidebar_right_item_value {
+    width: min-content;
+    color: var(--theme_foreground_medium);
 }

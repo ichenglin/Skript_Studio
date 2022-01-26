@@ -12,8 +12,7 @@ interface Props {}
 
 interface State {
 	editor_logs_message: EditorLogMessage[],
-	editor_cursor_position: {x: number, y: number},
-	editor_cursor_last_update: number
+	editor_focus_element: Element | null
 }
 
 export default class PageRoot extends Component<Props, State> {
@@ -22,39 +21,24 @@ export default class PageRoot extends Component<Props, State> {
 		super(props);
 		this.state = {
 			editor_logs_message: [],
-			editor_cursor_position: {x: 0, y: 0},
-			editor_cursor_last_update: Date.now()
+			editor_focus_element: null
 		}
-	}
-
-	componentDidMount() {
-		// multiple listeners might be appended due to component mount calls from debugging, this has no effect on production anyway
-		//document.addEventListener("mousemove", (event) => this.delayed_mouse_move(event, 100));
-		document.onmousemove = (event) => this.delayed_mouse_move(event, 25);
 	}
 
 	public set_logs_message(logs_message: EditorLogMessage[]) {
-		this.setState({
-			editor_logs_message: logs_message
-		});
+		this.setState({editor_logs_message: logs_message});
 	}
 
-	private delayed_mouse_move(event: MouseEvent, milliseconds: number) {
-		if (Date.now() - this.state.editor_cursor_last_update <= milliseconds) {
-			return;
-		}
-		this.setState({
-			editor_cursor_position: {x: event.clientX, y: event.clientY},
-			editor_cursor_last_update: Date.now()
-		});
+	public set_focus_element(focus_element: Element | null) {
+		this.setState({editor_focus_element: focus_element});
 	}
 
 	render() {
 		return <>
 			<PageHeader/>
 			<PageSidebarLeft/>
-			<PageSidebarRight/>
-			<PageBody set_logs_message={this.set_logs_message.bind(this)} cursor_position={this.state.editor_cursor_position}/>
+			<PageSidebarRight editor_focus_element={this.state.editor_focus_element}/>
+			<PageBody set_logs_message={this.set_logs_message.bind(this)} set_focus_element={this.set_focus_element.bind(this)}/>
 			<PageFooter editor_logs_message={this.state.editor_logs_message}/>
 		</>;
 	}

@@ -7,14 +7,17 @@ export class EditorLog {
 
     private editor_logs: Map<number, string>;
     private editor_length: number;
+    private snapshot_updated: boolean;
 
     constructor(editor_lines: number) {
         this.editor_logs = new Map<number, string>();
         this.editor_length = editor_lines;
+        this.snapshot_updated = false;
     }
 
     public add_log(index: number, log: string): void {
         this.editor_logs.set(index, log);
+        this.snapshot_updated = true;
     }
 
     public trim_log(begin_preserve: number, end_preserve: number, final_length: number): void {
@@ -28,10 +31,22 @@ export class EditorLog {
                 // push forward
                 const new_index = key - (this.editor_length - final_length);
                 new_logs.set(new_index, value);
+                this.snapshot_updated = true;
+            } else {
+                // drop item
+                this.snapshot_updated = true;
             }
         });
         this.editor_logs = new_logs;
         this.editor_length = final_length;
+    }
+
+    public save_snapshot(): void {
+        this.snapshot_updated = false;
+    }
+
+    public updated_snapshot(): boolean {
+        return this.snapshot_updated;
     }
 
     public export_log(): EditorLogMessage[] {

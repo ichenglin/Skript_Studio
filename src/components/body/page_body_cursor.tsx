@@ -30,7 +30,7 @@ export function editor_relative_focus(relative_cursor: {x: number, y: number}): 
 }
 
 export function editor_update_focus(previous_focus: Element | null, new_focus: Element | null): Element | null {
-    if (previous_focus === new_focus) {
+    if (previous_focus?.isEqualNode(new_focus)) {
         // same object, no update needed
         return previous_focus;
     }
