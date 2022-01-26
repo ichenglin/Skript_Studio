@@ -17,7 +17,7 @@ interface State {
 
 export default class PageRoot extends Component<Props, State> {
 
-	constructor(props: {}) {
+	constructor(props: Props) {
 		super(props);
 		this.state = {
 			editor_logs_message: [],

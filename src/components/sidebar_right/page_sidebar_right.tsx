@@ -24,7 +24,6 @@ export default class PageSidebarRight extends Component<Props, State> {
 			if (last_content !== this.props.editor_focus_element?.textContent) {
 				last_content = this.props.editor_focus_element?.textContent;
 				this.forceUpdate();
-				console.log("update!");
 			}
 			await new Promise(resolve => setTimeout(resolve, 100));
 		}
