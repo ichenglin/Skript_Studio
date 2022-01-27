@@ -34,6 +34,8 @@
 }
 
 .page_body_content_mirror {
+    /* max-width is necessary for capture screenshot */
+    max-width: max-content;
     padding-right: 8px;
     padding-bottom: 8px;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import skript_obfuscator from "../../modules/skript-obfuscator";
 import "./page_sidebar_left.css";
-import { download_file, open_url, set_editor_content } from "./page_sidebar_left_actions";
+import { capture_image, download_file, open_url, set_editor_content } from "./page_sidebar_left_actions";
 
 interface Props {};
 interface State {
@@ -36,10 +36,19 @@ export default class PageSidebarLeft extends Component<Props, State> {
 						"#",
 						"# (Automatically Generated)"
 					];
-					const editor_content = (document.getElementById("editor") as any).value;
-					const editor_contente_obfuscated = skript_obfuscator(editor_content);
-					set_editor_content(obfuscator_label.join("\n") + "\n".repeat(2) + editor_contente_obfuscated);
+					try {
+						const editor_content = (document.getElementById("editor") as any).value;
+						const editor_contente_obfuscated = skript_obfuscator(editor_content);
+						set_editor_content(obfuscator_label.join("\n") + "\n".repeat(2) + editor_contente_obfuscated);
+					} catch (error: any) {
+						alert("obfuscation request denied due to error detected in script!");
+					}
 				}
+			} as PageSidebarLeftItem, {
+				name: "Capture Image",
+				icon_class: "fas fa-camera-retro",
+				icon_size: 28,
+				click_action: () => capture_image()
 			} as PageSidebarLeftItem, {
 				name: "Download",
 				icon_class: "fas fa-file-code",
