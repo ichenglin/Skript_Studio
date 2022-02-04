@@ -1,0 +1,55 @@
+.popup_template {
+    background-color: rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2; /* cover over textarea */
+}
+
+.popup_template::before {
+    content: "";
+    width: calc(30px * 16);
+    height: 10px;
+    background-color: var(--theme_background_main);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.popup_template_window {
+    /* popup window with classic 16:9 ratio */
+    width: calc(30px * 16);
+    height: calc(30px * 9);
+    background-color: var(--theme_background_dark);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.popup_loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup_loading_title, .popup_loading_subtitle {
+    width: fit-content;
+    height: fit-content;
+    color: var(--theme_foreground_light);
+}
+
+.popup_loading_title > p {
+    font-size: 32px;
+    font-family: "Audiowide", cursive;
+}
+
+.popup_loading_subtitle > p {
+    font-size: 16px;
+    font-family: "Audiowide", cursive;
+    margin-bottom: 32px;
+}
+
+.popup_loading > .global_loadspinner {
+    width: 100px;
+    height: 100px;
+}

@@ -1,4 +1,6 @@
 import html2canvas from "html2canvas";
+import { async_delay } from "../../system/async_delay";
+import { editor_update_focus } from "../body/page_body_cursor";
 
 interface CaptureImageResizeElement {
     element: HTMLElement,
@@ -11,9 +13,10 @@ export function open_url(url: string): void {
     Object.assign(document.createElement("a"), {target: "_blank", href: url}).click();
 }
 
-export async function capture_image(): Promise<void> {
-    // user unfocus window, caused error
-    navigator.clipboard.writeText("image capture failure: please wait a while before switching window");
+export async function capture_image(set_window_popup: Function): Promise<void> {
+    // toggle window loading animation (delay is required after for window to render)
+    set_window_popup("loading", "left_sidebar_capture_image", true);
+    await async_delay(1);
     // page elements
     const editor_body = document.getElementsByClassName("page_body")[0] as HTMLElement;
     const editor_index = document.getElementsByClassName("page_body_index")[0] as HTMLElement;
@@ -41,9 +44,11 @@ export async function capture_image(): Promise<void> {
         backgroundColor: editor_mirror_background,
         foreignObjectRendering: true,
         onclone: (cloned_document) => {
+            // fix incorrect element dimensions caused by html2canvas library
             const cloned_page_root = cloned_document.getElementById("page_root") as HTMLElement;
             const cloned_editor_content = cloned_document.getElementsByClassName("page_body_content")[0] as HTMLElement;
             const cloned_editor_body = cloned_document.getElementsByClassName("page_body")[0] as HTMLElement;
+            const cloned_editor_index = cloned_document.getElementsByClassName("page_body_index")[0] as HTMLElement;
             const cloned_editor_textarea = cloned_document.getElementsByClassName("page_body_content_editor")[0] as HTMLElement;
             const cloned_editor_mirror = cloned_document.getElementsByClassName("page_body_content_mirror")[0] as HTMLElement;
             cloned_page_root.style.gridTemplateColumns = `0px ${canvas_width}px 0px`;
@@ -54,14 +59,16 @@ export async function capture_image(): Promise<void> {
             cloned_editor_content.style.gridTemplateRows = `${canvas_height}px`;
             cloned_editor_body.style.width = "100%";
             cloned_editor_body.style.height = "100%";
+            cloned_editor_index.style.height = `${canvas_height}px`;
             cloned_editor_textarea.style.overflow = "hidden";
             cloned_editor_mirror.style.width = `${canvas_width}px`;
             cloned_editor_mirror.style.height = `${canvas_height}px`;
         }
     });
-    editor_body_canvas.toBlob(blob => {
+    editor_body_canvas.toBlob(async blob => {
         const blob_type = (blob as any).type as string;
-        navigator.clipboard.write([new ClipboardItem(Object.defineProperty({}, blob_type, {value: blob, enumerable: true}))]);
+        await navigator.clipboard.write([new ClipboardItem(Object.defineProperty({}, blob_type, {value: blob, enumerable: true}))]);
+        set_window_popup("loading", "left_sidebar_capture_image", false);
     });
 }
 

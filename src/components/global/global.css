@@ -1,3 +1,10 @@
+.global_loadspinner {
+	border: 8px solid var(--theme_foreground_light);
+	border-top: 8px solid var(--theme_background_main);
+	border-radius: 50%;
+	animation: rotate 1.5s linear infinite;
+}
+
 .global_scrollable {
     overflow: scroll;
 }
@@ -25,4 +32,13 @@
 .global_overflow_children {
     grid-column: 1;
     grid-row: 1;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }

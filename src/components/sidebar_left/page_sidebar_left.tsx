@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import skript_obfuscator from "../../modules/skript-obfuscator";
+import { async_delay } from "../../system/async_delay";
 import "./page_sidebar_left.css";
 import { capture_image, download_file, open_url, set_editor_content } from "./page_sidebar_left_actions";
 
-interface Props {};
+interface Props {
+	set_window_popup: Function
+};
 interface State {
 	items: PageSidebarLeftItem[]
 };
@@ -48,7 +51,7 @@ export default class PageSidebarLeft extends Component<Props, State> {
 				name: "Capture Image",
 				icon_class: "fas fa-camera-retro",
 				icon_size: 28,
-				click_action: () => capture_image()
+				click_action: () => capture_image(this.props.set_window_popup)
 			} as PageSidebarLeftItem, {
 				name: "Download",
 				icon_class: "fas fa-file-code",

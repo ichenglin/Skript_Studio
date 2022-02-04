@@ -60,3 +60,9 @@
     grid-column: 2/4;
     grid-row: 3;
 }
+
+.popup_template {
+    /* loading popup location in grid */
+    grid-column: 1/4;
+    grid-row: 2/4;
+}

@@ -16,6 +16,15 @@ export function editor_relative_focus(relative_cursor: {x: number, y: number}): 
         // line doesn't exist
         return null;
     }
+    const editor_element = document.getElementById("editor");
+    if (editor_element) {
+        const relative_cursor_x_in_border = editor_element.scrollLeft <= relative_cursor.x && relative_cursor.x <= editor_element.scrollLeft + editor_element.clientWidth;
+        const relative_cursor_y_in_border = editor_element.scrollTop <= relative_cursor.y && relative_cursor.y <= editor_element.scrollTop + editor_element.clientHeight;
+        if (!relative_cursor_x_in_border || !relative_cursor_y_in_border) {
+            // cursor out of border
+            return null;
+        }
+    }
     const cursor_relative_line_elements = cursor_relative_line[cursor_relative_index - 1].children;
     let length_after_element = 0;
     for (let element_index = 0; element_index < cursor_relative_line_elements.length; element_index++) {
