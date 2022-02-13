@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./page_sidebar_right.css";
 import * as markup_colors from "../../data/skript_language_markup_colors.json";
-import { stringify } from "querystring";
 
 interface Props {
 	editor_focus_element: Element | null;
@@ -37,7 +36,7 @@ export default class PageSidebarRight extends Component<Props, State> {
 		const element_style = (element as any).style;
 		const element_type_raw = element_style.getPropertyValue("--type") as string;
 		const element_type = element_type_raw.replaceAll("_", " ");
-		const element_color = markup_colors[element_type as keyof typeof markup_colors] as string;
+		const element_color = markup_colors[element_type_raw as keyof typeof markup_colors] as string;
 		const element_content_raw = element.textContent as string;
 		const element_content = element_content_raw.replace(/^\s*/, "") as string;
 		output_detail.push({name: "Type", value: element_type, color: `#${element_color}`} as ElementDetail);

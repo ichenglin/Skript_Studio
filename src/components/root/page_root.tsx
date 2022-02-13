@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router, Routes, Route, useLocation} from "react-router-dom";
 import { EditorLogMessage } from '../../objects/EditorLog';
 import PageBody from '../body/page_body';
 import PageFooter from '../footer/page_footer';
@@ -65,13 +66,19 @@ export default class PageRoot extends Component<Props, State> {
 	}
 
 	render() {
-		return <>
-			<PageHeader/>
-			<PageSidebarLeft set_window_popup={this.set_window_popup.bind(this)}/>
-			<PageSidebarRight editor_focus_element={this.state.editor_focus_element}/>
-			<PageBody set_logs_message={this.set_logs_message.bind(this)} set_focus_element={this.set_focus_element.bind(this)}/>
-			<PageFooter editor_logs_message={this.state.editor_logs_message}/>
-			{this.get_active_popup()}
-		</>;
+		return <Router><Routes>
+			<Route path="*" element={<>
+				<PageHeader/>
+				<PageSidebarLeft set_window_popup={this.set_window_popup.bind(this)}/>
+				<PageSidebarRight editor_focus_element={this.state.editor_focus_element}/>
+				<PageBody set_logs_message={this.set_logs_message.bind(this)} set_focus_element={this.set_focus_element.bind(this)}/>
+				<PageFooter editor_logs_message={this.state.editor_logs_message}/>
+				{this.get_active_popup()}
+			</>}/>
+			<Route path="/plain/*" element={<div className="page_root_plain">
+				<PageHeader/>
+				<PageBody set_logs_message={this.set_logs_message.bind(this)} set_focus_element={this.set_focus_element.bind(this)}/>
+			</div>}/>
+		</Routes></Router>;
 	}
 }

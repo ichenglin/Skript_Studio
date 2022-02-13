@@ -11,7 +11,7 @@
 }
 
 #page_root {
-    /* page layout */
+    /* page layout (full) */
     display: grid;
     grid-template-columns: 50px auto min(300px, calc(100% / 3));
     grid-template-rows: 30px auto min(150px, calc(100% / 5));
@@ -29,6 +29,15 @@
         grid-template-columns: 0px auto 0px;
         grid-template-rows: 30px auto min(150px, calc(100% / 5));
     }
+}
+
+.page_root_plain {
+    /* page layout (editor body only) */
+    grid-column: 1 / 4;
+    grid-row: 1 / 4;
+    display: grid;
+    grid-template-columns: 0px 100% 0px;
+    grid-template-rows: 0px auto 0px;
 }
 
 .page_header {

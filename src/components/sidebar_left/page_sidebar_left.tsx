@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import skript_obfuscator from "../../modules/skript-obfuscator";
-import { async_delay } from "../../system/async_delay";
 import "./page_sidebar_left.css";
 import { capture_image, download_file, open_url, set_editor_content } from "./page_sidebar_left_actions";
 
@@ -28,7 +27,7 @@ export default class PageSidebarLeft extends Component<Props, State> {
 				icon_class: "fas fa-shield-alt",
 				icon_size: 28,
 				click_action: () => {
-					const obfuscator_label = [
+					/*const obfuscator_label = [
 						`# ==== ( Information ) ====`,
 						`#`,
 						`# @Name        | New Script`,
@@ -38,11 +37,12 @@ export default class PageSidebarLeft extends Component<Props, State> {
 						`# @Date        | ${new Date(Date.now()).toLocaleDateString()}`,
 						"#",
 						"# (Automatically Generated)"
-					];
+					];*/
 					try {
 						const editor_content = (document.getElementById("editor") as any).value;
 						const editor_contente_obfuscated = skript_obfuscator(editor_content);
-						set_editor_content(obfuscator_label.join("\n") + "\n".repeat(2) + editor_contente_obfuscated);
+						//set_editor_content(obfuscator_label.join("\n") + "\n".repeat(2) + editor_contente_obfuscated);
+						set_editor_content(editor_contente_obfuscated);
 					} catch (error: any) {
 						alert("obfuscation request denied due to error detected in script!");
 					}

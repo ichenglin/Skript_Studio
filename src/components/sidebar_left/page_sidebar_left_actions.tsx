@@ -1,6 +1,5 @@
 import html2canvas from "html2canvas";
 import { async_delay } from "../../system/async_delay";
-import { editor_update_focus } from "../body/page_body_cursor";
 
 interface CaptureImageResizeElement {
     element: HTMLElement,
