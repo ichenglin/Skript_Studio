@@ -36,11 +36,12 @@
 .page_body_content_mirror {
     /* max-width is necessary for capture screenshot */
     max-width: max-content;
+    position: relative;
     padding-right: 8px;
     padding-bottom: 8px;
 }
 
-.page_body_content_mirror_line > pre, .page_body_content_editor {
+.page_body_content_mirror_line > pre, .page_body_content_editor, .page_body_content_autocomplete_suggestion_content > pre {
     font-size: 14px;
 	font-family: var(--theme_foreground_font);
 	line-height: 16px;
@@ -63,6 +64,72 @@
     color: white;
     background-color: var(--focus_color);
     border-radius: 2px;
+}
+
+.page_body_content_autocomplete {
+    width: max-content;
+    min-width: 250px;
+    height: max-content;
+    min-height: 100px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--theme_background_main);
+    border-radius: 3px;
+    background-color: var(--theme_background_dark);
+    z-index: 2;
+}
+
+.page_body_content_autocomplete::before {
+    content: "";
+    width: 100%;
+    height: 8px;
+    background-color: var(--theme_background_main);
+}
+
+.page_body_content_autocomplete_suggestion {
+    width: 100%;
+    height: 16px;
+    display: flex;
+    color: var(--theme_foreground_light);
+}
+
+.page_body_content_autocomplete_suggestion:hover {
+    background-color: var(--theme_background_light);
+}
+
+.page_body_content_autocomplete_suggestion_icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 3px;
+}
+
+.page_body_content_autocomplete_suggestion_icon > i {
+    width: fit-content;
+    height: fit-content;
+    font-size: 12px;
+}
+
+.page_body_content_autocomplete_suggestion_content {
+    width: 100%;
+    height: 16px;
+    display: flex;
+}
+
+.page_body_content_autocomplete_suggestion_content > pre:nth-child(1) {
+    width: 120px;
+}
+
+.page_body_content_autocomplete_suggestion_content > pre:nth-child(2) {
+    width: max-content;
+    color: var(--theme_foreground_warning);
+}
+
+.page_body_content_autocomplete_suggestion_content > pre:nth-child(3) {
+    width: max-content;
 }
 
 /* grid layout */
