@@ -35,6 +35,7 @@
 
 .page_body_content_mirror {
     /* max-width is necessary for capture screenshot */
+    min-width: 100%;
     max-width: max-content;
     position: relative;
     padding-right: 8px;

@@ -12,10 +12,10 @@ interface State {};
 export default class PagePopupLoading extends Component<Props, State> {
 	render() {
 		return <PagePopupTemplate inner_content={<div className="popup_loading">
-				<div className="popup_loading_title">
+				<div className="popup_global_title">
 					<p>{this.props.title}</p>
 				</div>
-				<div className="popup_loading_subtitle">
+				<div className="popup_global_subtitle">
 					<p>{this.props.subtitle}</p>
 				</div>
 				<LoadSpinner/>

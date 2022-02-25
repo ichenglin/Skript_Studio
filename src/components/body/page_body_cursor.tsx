@@ -38,10 +38,13 @@ export function editor_relative_focus(relative_cursor: {x: number, y: number}): 
     return null;
 }
 
-export function editor_update_focus(previous_focus: Element | null, new_focus: Element | null): Element | null {
-    if (previous_focus?.isEqualNode(new_focus)) {
+export function editor_update_focus(previous_focus: Element | null, new_focus: Element | null): {element: Element | null, updated: boolean} {
+    if (previous_focus?.isEqualNode(new_focus) || (previous_focus === null && new_focus === null)) {
         // same object, no update needed
-        return previous_focus;
+        return {
+            element: previous_focus,
+            updated: false
+        };
     }
     // remove focus tag from previous element (if exist)
     if (previous_focus !== null) {
@@ -64,5 +67,8 @@ export function editor_update_focus(previous_focus: Element | null, new_focus: E
             new_focus.classList.add("page_body_content_mirror_focus");
         }
     }
-    return new_focus;
+    return {
+        element: new_focus,
+        updated: true
+    };
 }

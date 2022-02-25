@@ -1,6 +1,7 @@
 import { matches_alternation } from "../matchers/alternation";
 import { matches_optional } from "../matchers/optional";
 import { capture_bracket_length } from "../system/capture_bracket_length";
+import { reader_error } from "../system/reader_error";
 import { string_prefix_matcher } from "../system/string_prefix_matcher";
 import { SkriptExpressionDivider } from "./SkriptExpressionDivider";
 
@@ -107,6 +108,10 @@ export class SkriptExpression {
             }
             if (bracket_type !== null) {
                 const bracket_length = capture_bracket_length(this.object_content.slice(content_index));
+                if (bracket_length <= 0) {
+                    // invalid bracket length or bracket enclose not found
+                    throw reader_error("invalid bracket or bracket not properly enclosed", this.object_content.slice(content_index));
+                }
                 divider.add_component({begin_index: content_index, end_index: (content_index + bracket_length - 1), component_type: bracket_type});
                 content_index += bracket_length;
             }

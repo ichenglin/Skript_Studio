@@ -5,6 +5,8 @@ import { skript_language_markup } from "../../system/skript_language_markup";
 import PageBodyAutoComplete from "./autocomplete/page_body_autocomplete";
 import "./page_body.css";
 import { editor_relative_cursor, editor_relative_focus, editor_update_focus } from "./page_body_cursor";
+import startup_template from "../../data/startup_template.json";
+import { isMobile } from "react-device-detect";
 
 interface Props {
 	set_logs_message: Function,
@@ -17,7 +19,6 @@ interface State {
 	styled_log: EditorLog,
 	styled_length: number,
 	focus_element: Element | null,
-	focus_element_last_content: string | null,
 	cursor_position: {x: number, y: number},
 	cursor_last_update: number,
 	autocomplete_position: {column: number, row: number, visible: boolean},
@@ -34,7 +35,6 @@ export default class PageBody extends Component<Props, State> {
 			styled_length: 1,
 			styled_log: new EditorLog(1),
 			focus_element: null,
-			focus_element_last_content: null,
 			cursor_position: {x: 0, y: 0},
 			cursor_last_update: Date.now(),
 			autocomplete_position: {column: 0, row: 0, visible: false},
@@ -43,19 +43,19 @@ export default class PageBody extends Component<Props, State> {
 	}
 
 	componentDidMount() {
-		// load template script
-		fetch("https://raw.githubusercontent.com/fireclaws9/Skript_WealthGens/master/Version%201/game_generatorsHandler.sk")
+		//const device_template = isMobile ? startup_template.mobile.join("\n") : startup_template.desktop.join("\n");
+		/*fetch("https://raw.githubusercontent.com/fireclaws9/Skript_WealthGens/master/Version%201/game_generatorsHandler.sk")
 		.then(respond => respond.text())
 		.then(content => {
 			const template_header = "# This script is loaded as template,\n# feel free to delete it by right-click\n# and click select-all :>";
 			this.editor_set_content(template_header + "\n".repeat(2) + content.replaceAll(/#[^#\n]*\n?/g, ""));
-		});
-		// mouse move event for detecting element hover
-		document.onmousemove = (event) => this.delayed_mouse_move(event, 25);
-	}
-
-	componentDidUpdate() {
-		this.update_mouse_focus();
+		});*/
+		if (!isMobile) {
+			// load template script
+			this.editor_set_content(startup_template.desktop.join("\n"));
+			// mouse move event for detecting element hover
+			document.onmousemove = (event) => this.delayed_mouse_move(event, 50);
+		}
 	}
 
 	public editor_set_content(content: string): void {
@@ -64,6 +64,15 @@ export default class PageBody extends Component<Props, State> {
         (input_event as any).simulated = true;
 		const editor_object = document.getElementById("editor") as HTMLElement;
 		(editor_object as any).value = content;
+        editor_object.dispatchEvent(input_event);
+	}
+
+	public editor_move_simulate(): void {
+		if ((document as any).last_mousemove_event === undefined) {
+			return;
+		}
+		const input_event = (document as any).last_mousemove_event as Event;
+		const editor_object = document.getElementById("editor") as HTMLElement;
         editor_object.dispatchEvent(input_event);
 	}
 
@@ -109,7 +118,6 @@ export default class PageBody extends Component<Props, State> {
 			this.props.set_logs_message(this.state.styled_log.export_log());
 		}
 		// update mouse focus was supposed to be called, however editor scroll function already did it
-		// this.update_mouse_focus();
 		this.editor_scroll(event);
 		this.editor_autocomplete(event);
 	}
@@ -132,7 +140,7 @@ export default class PageBody extends Component<Props, State> {
         editor_mirror.scrollLeft = event_target.scrollLeft;
 		const editor_mirror_index = event_target.parentElement.parentElement.children[0];
         editor_mirror_index.scrollTop = event_target.scrollTop;
-		this.update_mouse_focus();
+		this.editor_move_simulate();
 	}
 
 	private editor_autocomplete(event: React.FormEvent): void {
@@ -177,27 +185,19 @@ export default class PageBody extends Component<Props, State> {
 		if (Date.now() - this.state.cursor_last_update <= milliseconds) {
 			return;
 		}
-		this.setState({
-			cursor_position: {x: event.clientX, y: event.clientY},
-			cursor_last_update: Date.now()
-		});
+		this.update_mouse_focus({x: event.clientX, y: event.clientY});
 	}
 
-	private update_mouse_focus() {
-		const new_focus_element = editor_relative_focus(editor_relative_cursor(this.state.cursor_position))
+	private update_mouse_focus(cursor_position: {x: number, y: number}) {
+		const new_focus_element = editor_relative_focus(editor_relative_cursor(cursor_position))
 		const final_focus_element = editor_update_focus(this.state.focus_element, new_focus_element);
-		if (final_focus_element !== this.state.focus_element) {
-			this.setState({focus_element: new_focus_element, focus_element_last_content: (new_focus_element !== null ? new_focus_element.textContent : null)});
+		if (final_focus_element.updated) {
+			this.setState({focus_element: new_focus_element, cursor_last_update: Date.now()});
 			this.props.set_focus_element(new_focus_element);
 		}
-		/*const focus_content_changed = (final_focus_element !== null ? final_focus_element.textContent : null) !== this.state.focus_element_last_content;
-		if (focus_content_changed) {
-			this.props.update_focus_element_content();
-		}*/
 	}
 
 	public render(): JSX.Element {
-		console.log("render");
 		return <div className="page_body">
 			<div className="page_body_index">
 				{new Array(this.state.styled_length).fill(0).map((value, index) => (<pre key={index} style={{color: ((index + 1) % 5 === 0 ? "#FFFFFF" : "#808080")}}>{index + 1}</pre>))}
