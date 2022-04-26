@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import LoadSpinner from '../global/global';
 import "./page_popup.css";
 import PagePopupTemplate from './page_popup_template';
 

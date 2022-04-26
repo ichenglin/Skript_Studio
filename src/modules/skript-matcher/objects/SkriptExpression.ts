@@ -7,6 +7,11 @@ import { SkriptExpressionDivider } from "./SkriptExpressionDivider";
 
 export type SkriptExpressionType = "combination" | "alternation" | "optional";
 
+export interface SkriptExpressionMatchingSettings {
+    case_sensitive: boolean,
+    strict_matching: boolean
+};
+
 export class SkriptExpression {
 
     readonly object_content: string;
@@ -21,7 +26,7 @@ export class SkriptExpression {
         this.object_childrens = this.evaluate_components();
     }
 
-    public matches_begin_string(string: string, case_sensitive: boolean, strict_matching: boolean): {string_length: number, expression_length: number} {
+    public matches_begin_string(string: string, settings: SkriptExpressionMatchingSettings): {string_length: number, expression_length: number} {
         // no child fields, try to match itself
         if (this.object_childrens.length <= 0) {
             switch (this.object_type) {
@@ -33,14 +38,14 @@ export class SkriptExpression {
                     };
 
                 case "alternation":
-                    const alternation_match_length = matches_alternation(this.object_content_clean, string, case_sensitive);
+                    const alternation_match_length = matches_alternation(this.object_content_clean, string, settings);
                     return {
                         string_length: alternation_match_length,
                         expression_length: 1
                     };
 
                 case "optional":
-                    const optional_match_length = matches_optional(this.object_content_clean, string, case_sensitive);
+                    const optional_match_length = matches_optional(this.object_content_clean, string, settings);
                     return {
                         string_length: optional_match_length,
                         expression_length: 1
@@ -51,7 +56,7 @@ export class SkriptExpression {
         let evaluated_string_length = 0, evaluated_expression_length = 0;
         for (let children_index = 0; children_index < this.object_childrens.length; children_index++) {
             // check if there were string remaining for matching
-            if (strict_matching === false && evaluated_string_length >= string.length) {
+            if (settings.strict_matching === false && evaluated_string_length >= string.length) {
                 // if strict mode is not enabled and beginning of string matches, doesn't need to match whole field
                 return {
                     string_length: evaluated_string_length,
@@ -59,12 +64,12 @@ export class SkriptExpression {
                 };
             }
             const loop_children = this.object_childrens[children_index];
-            const matches_length = loop_children.matches_begin_string(string.slice(evaluated_string_length), case_sensitive, true).string_length;
+            const matches_length = loop_children.matches_begin_string(string.slice(evaluated_string_length), settings).string_length;
             // check if children matches
             if (matches_length <= 0) {
                 // children doesn't match
                 if (loop_children.object_type !== "optional") {
-                    return {string_length: -1, expression_length: 0};
+                    return {string_length: -1, expression_length: evaluated_expression_length};
                 }
             } else {
                 // children matches

@@ -61,7 +61,7 @@ export default class PageSidebarLeft extends Component<Props, State> {
 				name: "Github",
 				icon_class: "fab fa-github",
 				icon_size: 28,
-				click_action: () => open_url("https://github.com/fireclaws9")
+				click_action: () => open_url("https://github.com/ichenglin")
 			} as PageSidebarLeftItem
 		]};
 		/*{name: "More Tools", icon_class: "fas fa-tools", icon_size: 28} as PageSidebarLeftItem,*/

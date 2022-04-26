@@ -1,5 +1,5 @@
 import { Component, useEffect } from "react";
-import expression_matches from "../../../modules/skript-pattern-matcher/index";
+import expression_matches from "../../../modules/skript-matcher/index";
 import * as skript_effects from "../../../data/effects.json";
 
 interface Props {
@@ -46,7 +46,7 @@ export default class PageBodyAutoComplete extends Component<Props, State> {
     }
 
     static get_suggestions(content: string) {
-        const content_indention_matcher = content.match(/^(\s*)(.+)$/);
+        const content_indention_matcher = content.match(/^(\s*)([^\s].*)$/);
         if (content_indention_matcher === null || content_indention_matcher[2] === "") {
             return [];
         }
@@ -61,7 +61,9 @@ export default class PageBodyAutoComplete extends Component<Props, State> {
                     continue;
                 }
                 const expression_matcher = expression_matches(loop_pattern, content_without_indention, false, false);
-                if (expression_matcher.string_length === content_without_indention.length) {
+                const content_context_matcher = content_without_indention.match(/(.*[^\s])\s*$/);
+                const content_context_only = content_context_matcher !== null ? content_context_matcher[1] : "";
+                if (expression_matcher.string_length === content_context_only.length) {
                     matches.push({pattern: loop_pattern, addon: loop_effect.addon.split(" ")[0], match_length: expression_matcher.expression_length});
                 }
             }
