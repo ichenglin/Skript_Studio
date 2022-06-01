@@ -1,5 +1,5 @@
 export function lines_edit_range(old_lines: string[], new_lines: string[]): {begin_matches: number, end_matches: number} {
-    let begin_matches = old_lines.length, end_matches = 0;
+    let begin_matches = old_lines.length, end_matches = old_lines.length;
     // begin matches
     for (let line_index = 0; line_index < old_lines.length; line_index++) {
         if (old_lines[line_index] !== new_lines[line_index]) {

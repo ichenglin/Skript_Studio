@@ -58,6 +58,11 @@ export default class PageSidebarLeft extends Component<Props, State> {
 				icon_size: 28,
 				click_action: () => download_file("skript_studio_download.sk", (document.getElementById("editor") as any).value)
 			} as PageSidebarLeftItem, {
+				name: "Home",
+				icon_class: "fas fa-door-open",
+				icon_size: 24,
+				click_action: () => open_url("https://runtimecloud.com")
+			} as PageSidebarLeftItem, {
 				name: "Github",
 				icon_class: "fab fa-github",
 				icon_size: 28,
@@ -70,10 +75,10 @@ export default class PageSidebarLeft extends Component<Props, State> {
 	render() {
 		return <div className="page_sidebar_left">
 			{this.state.items.map((sidebar_item, index) => (
-				<div className="page_sidebar_left_item" key={index} onClick={event => sidebar_item.click_action(event)}>
+				<a className="page_sidebar_left_item" key={index} onClick={event => sidebar_item.click_action(event)}>
 					<i className={sidebar_item.icon_class} style={{fontSize: `${sidebar_item.icon_size}px`}}></i>
 					<p>{sidebar_item.name}</p>
-				</div>
+				</a>
 			))}
 		</div>;
 	}

@@ -6,6 +6,7 @@ import PageBodyAutoComplete from "./autocomplete/page_body_autocomplete";
 import "./page_body.css";
 import { editor_relative_cursor, editor_relative_focus, editor_update_focus } from "./page_body_cursor";
 import { isMobile } from "react-device-detect";
+import { random_string } from "../../system/random_string";
 
 interface Props {
 	set_logs_message: Function,
@@ -13,10 +14,15 @@ interface Props {
 }
 
 interface State {
-	styled_content: JSX.Element[]
+	styled_content: ScriptMirror[]
 	styled_length: number,
 	cursor_position: {x: number, y: number}
 	autocomplete_position: {column: number, row: number, visible: boolean}
+}
+
+interface ScriptMirror {
+	line_content: JSX.Element | null,
+	line_id: string
 }
 
 export default class PageBody extends Component<Props, State> {
@@ -30,7 +36,6 @@ export default class PageBody extends Component<Props, State> {
 	static editor_log: EditorLog = new EditorLog(1);
 	// autocomplete
 	static autocomplete_content: string = "";
-
 
 	constructor(props: Props) {
 		super(props);
@@ -91,19 +96,20 @@ export default class PageBody extends Component<Props, State> {
 		const edit_range = lines_edit_range(PageBody.raw_content, new_lines);
 		PageBody.editor_log.save_snapshot();
 		PageBody.editor_log.trim_log(edit_range.begin_matches, edit_range.end_matches, new_lines.length);
-		const insert_lines = [];
+		const insert_lines: ScriptMirror[] = [];
 		for (let line_index = 0; line_index < (new_lines.length - edit_range.begin_matches - edit_range.end_matches); line_index++) {
             const absolute_line_index = edit_range.begin_matches + line_index;
 			const line_markup = skript_language_markup(new_lines[absolute_line_index]);
-            insert_lines.push(line_markup.markup);
+            insert_lines.push({line_content: line_markup.markup, line_id: this.editor_new_line_id()} as ScriptMirror);
 			if (line_markup.error !== null) {
 				PageBody.editor_log.add_log(absolute_line_index, (line_markup.error.match(/^Error: (.+)$/) as RegExpMatchArray)[1]);
 			}
         }
+		console.log(`added ${insert_lines.length} lines`);
 		this.setState({
 			styled_content: [
 				...this.state.styled_content.slice(0, edit_range.begin_matches),
-				...insert_lines as JSX.Element[],
+				...insert_lines,
 				...this.state.styled_content.slice(PageBody.raw_content.length - edit_range.end_matches)
 			],
 			styled_length: new_lines.length
@@ -162,6 +168,7 @@ export default class PageBody extends Component<Props, State> {
 		const cursor_position_line = cursor_prefix_lines[cursor_prefix_lines.length - 1];
 		const cursor_position_column = cursor_position_line.replaceAll("\t", "0".repeat(4)).length;
 		const cursor_position_row = cursor_prefix_lines.length;
+		PageBody.autocomplete_content = cursor_position_line;
 		this.setState({
 			autocomplete_position: {
 				column: cursor_position_column,
@@ -169,7 +176,6 @@ export default class PageBody extends Component<Props, State> {
 				visible: true
 			}
 		});
-		PageBody.autocomplete_content = cursor_position_line;
 	}
 
 	private editor_selection_insert(event: React.FormEvent, content: string): void {
@@ -201,8 +207,13 @@ export default class PageBody extends Component<Props, State> {
 		}
 	}
 
+	private editor_new_line_id(): string {
+		const used_ids = this.state.styled_content.map(script_mirror_object => script_mirror_object.line_id);
+		const new_id = random_string(8, used_ids);
+		return new_id;
+	}
+
 	public render(): JSX.Element {
-		console.log("render");
 		return <div className="page_body">
 			<div className="page_body_index">
 				{new Array(this.state.styled_length).fill(0).map((value, index) => (<pre key={index} style={{color: ((index + 1) % 5 === 0 ? "#FFFFFF" : "#808080")}}>{index + 1}</pre>))}
@@ -215,7 +226,7 @@ export default class PageBody extends Component<Props, State> {
 					onSelect={(event) => this.editor_autocomplete(event)}
 				></textarea>
 				<div className="page_body_content_mirror">
-					{this.state.styled_content.map((value, index) => (<div className="page_body_content_mirror_line" key={index}>{value}</div>))}
+					{this.state.styled_content.map((value, index) => (<div className="page_body_content_mirror_line" key={value.line_id} data-key={value.line_id}>{value.line_content}</div>))}
 					<PageBodyAutoComplete position={this.state.autocomplete_position} content={PageBody.autocomplete_content} line_replace={this.editor_line_replace.bind(this)}/>
 				</div>
 			</div>
