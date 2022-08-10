@@ -1,5 +1,5 @@
-import skript_reader from "../../skript-reader";
-import { SkriptObject } from "../../skript-reader/objects/SkriptObject";
+import skript_reader from "skript-reader";
+import { SkriptObject } from "skript-reader/build/objects/SkriptObject";
 
 export class SkriptLineElement {
 

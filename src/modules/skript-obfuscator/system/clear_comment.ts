@@ -1,4 +1,4 @@
-import skript_reader from "../../skript-reader";
+import skript_reader from "skript-reader";
 
 export function clear_comment(script_line: string): string {
     if (!script_line.includes("#")) {

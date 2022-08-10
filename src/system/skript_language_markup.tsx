@@ -1,4 +1,4 @@
-import skript_reader from "../modules/skript-reader";
+import skript_reader from "skript-reader";
 import * as markup_colors from "../data/skript_language_markup_colors.json";
 
 export function skript_language_markup(line: string) {
