@@ -50,7 +50,7 @@ export default class PageBody extends Component<Props, State> {
 	componentDidMount() {
 		if (!isMobile) {
 			// load template script
-			fetch("https://raw.githubusercontent.com/ichenglin/Skript_WealthGens/master/Version%201/game_generatorsHandler.sk")
+			fetch("https://raw.githubusercontent.com/ichenglin/Skript_WealthGens/master/game_generatorsHandler.sk")
 			.then(respond => respond.text())
 			.then(content => {
 				const template_header = "# This script is loaded as template,\n# feel free to delete it by right-click\n# and click select-all :>";
