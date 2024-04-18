@@ -10,13 +10,8 @@ export default class PageHeader extends Component {
 			<div className="page_header_subtitle">
 				<p>made with </p>
 				<i className="fas fa-heart"></i>
-				<p> by RuntimeCloud.com</p>
+				<p> by Icheng Lin</p>
 			</div>
 		</div>;
 	}
 }
-
-//			<div className="page_header_icons">
-//				<p>GitHub</p>
-//				<i className="fab fa-github"></i>
-//			</div>
