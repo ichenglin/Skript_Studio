@@ -1,7 +1,7 @@
 <div align="center">
 	<h1>Skript Studio</h1>
 	<p>Skript Studio is an online integrated development environment made for Skript with built-in syntax highlighting, syntax autocomplete, and obfuscator.</p>
-	<img src="https://ichenglin.net/images/skript_studio.png" alt="Skript Studio">
+	<img src="https://ichenglin.com/images/skript_studio.png" alt="Skript Studio">
 </div>
 
 ## Features
@@ -11,7 +11,7 @@
 
 ## Demo
 
-The **[online production build](https://skriptstudio.ichenglin.net/)** of the program is currently available on **[my website](https://skriptstudio.ichenglin.net/)**.
+The **[online production build](https://skriptstudio.ichenglin.com/)** of the program is currently available on **[my website](https://skriptstudio.ichenglin.com/)**.
 
 ## Modules
 
